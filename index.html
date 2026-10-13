@@ -47,6 +47,7 @@
   .brandbar{height:5px;background:var(--green-dk);border-bottom:2px solid #87ceeb}
   .head{display:flex;align-items:center;gap:11px;padding:9px 16px}
   .head svg{height:40px;width:auto;flex:0 0 auto}
+  .head img{height:44px;width:auto;background:#fff;border-radius:7px;padding:3px;flex:0 0 auto;display:block}
   .htx{min-width:0;flex:1}
   .htx .t{font-family:var(--f-disp);font-weight:700;color:var(--green);text-transform:uppercase;
           font-size:18px;line-height:1;letter-spacing:.01em}
@@ -166,7 +167,7 @@
   <div class="top">
     <div class="brandbar"></div>
     <div class="head">
-      <svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Green Lake Crew"><defs><clipPath id="glcsh"><path d="M14 12 Q14 8 18 8 H102 Q106 8 106 12 V72 C106 110 84 132 60 142 C36 132 14 110 14 72 Z"/></clipPath></defs><path d="M14 12 Q14 8 18 8 H102 Q106 8 106 12 V72 C106 110 84 132 60 142 C36 132 14 110 14 72 Z" fill="#3b5940" stroke="#efe8d4" stroke-width="6"/><g clip-path="url(#glcsh)"><path d="M26 124 L94 42" stroke="#8fd0e8" stroke-width="22" stroke-linecap="round"/></g><text x="60" y="98" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="84" fill="#141414" stroke="#efe8d4" stroke-width="3" paint-order="stroke">G</text></svg>
+      <img class="logo" alt="Green Lake Crew" src="data:image/png;base64,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">
       <div class="htx">
         <div class="t">HOCR 2026</div>
         <div class="s">GLC Girls · Oct 16–18 · Cambridge, MA</div>
@@ -248,177 +249,7 @@
     document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p>Updated '+esc(d.meta.updated)+'.</p>';
     var l=document.getElementById('loading');if(l)l.remove();
   }
-  var DATA = {
-  "_readme": "Edit this file to update the guide, then commit. The page rebuilds itself. Keep the quotes and commas. Replace any 'To be added' with the real value. To add a parking pin, copy a line inside parking > pins and change the label, detail, and maps link.",
-  "meta": {
-    "subtitle": "GLC · Oct 16–18 · Cambridge, MA",
-    "updated": "Oct 13, 2026"
-  },
-  "flights": {
-    "outbound": { "label": "Out · Wed Oct 14", "route": "SEA → BOS", "flight": "AS 214", "time": "11:00 PM → 7:26 AM Thu" },
-    "return": { "label": "Back · Mon Oct 19", "route": "BOS → SEA", "flight": "AS 459", "time": "7:03 AM → 10:20 AM" },
-    "confirmation": "QTUBTB",
-    "note": "At Alaska counters by 8:00 PM Wed. One carry-on + one personal bag. Checked bags $30, rower pays."
-  },
-  "vans": {
-    "vendor": "Budget",
-    "fleet": "2 minivans + 2 twelve-passenger vans",
-    "pickup": "BOS airport · Thu, Oct 15",
-    "return": "BOS airport · Mon, Oct 19 · 5:00 AM",
-    "fuelCard": "Jeny's card",
-    "reservations": [
-      { "holder": "Grayson Busch", "lines": ["Minivan — 01422371US6", "12-passenger — 01422093US1"] },
-      { "holder": "Coby Stites", "lines": ["Minivan — 01422243US4", "12-passenger — 01421963US4"] }
-    ]
-  },
-  "hotel": {
-    "name": "Hilton Garden Inn Boston-Burlington",
-    "address": "5 Wheeler Rd, Burlington, MA 01802",
-    "note": "Team, coaches & chaperones at one hotel.",
-    "phone": "(781) 272-8800",
-    "tel": "+17812728800",
-    "maps": "https://www.google.com/maps/search/?api=1&query=Hilton%20Garden%20Inn%20Boston-Burlington%205%20Wheeler%20Rd%20Burlington%20MA%2001802"
-  },
-  "food": [
-    "Hotel breakfast each morning",
-    "One team dinner covered. Post-workout snacks & drinks provided.",
-    "Pocket money for lunches, dinners, and mementos. Plan ahead and coordinate."
-  ],
-  "links": {
-    "regatta": "https://www.regattacentral.com/regatta/?job_id=10096&org_id=0",
-    "waiver": "https://waivers.regattacentral.com/hocr2026"
-  },
-  "resources": [
-    { "label": "HOCR Rules & Guidelines", "url": "https://hocr.org/competitors/rules-guidelines/" }
-  ],
-  "itineraries": [
-    { "team": "Girls", "days": [
-      { "day": "Wed · Oct 14", "rows": [ { "t": "8:00 PM", "e": "Meet at airport, fly to Boston" } ] },
-      { "day": "Thu · Oct 15", "rows": [
-        { "t": "7:30 AM", "e": "Arrive Boston · pick up vans · breakfast Harvard Sq (Coby & Tom get oars)" },
-        { "t": "9:00", "e": "Newell boathouse for oars → Weld boathouse, check equipment" },
-        { "t": "10:30", "e": "Row #1 — Gee Whiz / shakedown, w/ coaches" },
-        { "t": "12:30 PM", "e": "Lunch" },
-        { "t": "1:45", "e": "Row #2 — steady state w/ tactical bursts, w/ coaches" },
-        { "t": "3:30", "e": "Depart for hotel · stop Whole Foods / Trader Joe's" },
-        { "t": "5:00", "e": "Arrive hotel · dinner · crash" }
-      ] },
-      { "day": "Fri · Oct 16", "rows": [
-        { "t": "8:00 AM", "e": "Breakfast · boathouse (pack for day out) · Row #3 near race pace, no coaches · snacks + AAR" },
-        { "t": "11:00", "e": "Row #4 if needed; else lunch Harvard Sq" },
-        { "t": "12:30 PM", "e": "Depart for Boston" },
-        { "t": "7:00 PM", "e": "Meet at Faneuil Hall → return to hotel" }
-      ] },
-      { "day": "Sat · Oct 17", "rows": [
-        { "t": "8:00 AM", "e": "Breakfast" },
-        { "t": "10:00", "e": "Leave for racecourse · merch · watch racing" },
-        { "t": "1:00 PM", "e": "Return to hotel · rest" }
-      ] },
-      { "day": "Sun · Oct 18", "rows": [
-        { "t": "6:00 AM", "e": "Breakfast" },
-        { "t": "9:02", "e": "W Youth 8+", "race": true },
-        { "t": "9:56", "e": "W Youth 4+", "race": true },
-        { "t": "11:13", "e": "M Youth 8+", "race": true },
-        { "t": "12:13 PM", "e": "M Youth 4+", "race": true },
-        { "t": "1:00 PM", "e": "Return to hotel · chill" }
-      ] },
-      { "day": "Mon · Oct 19", "rows": [
-        { "t": "4:00 AM", "e": "Depart hotel for airport" },
-        { "t": "7:45 AM", "e": "Flight to Seattle · arrive ~10:45 AM" }
-      ] }
-    ] },
-    { "team": "Boys", "days": [
-      { "day": "Wed · Oct 14", "rows": [ { "t": "8:00 PM", "e": "Meet at SEA-TAC" } ] },
-      { "day": "Thu · Oct 15", "rows": [
-        { "t": "7:00 AM", "e": "Land in Boston · pick up vans · breakfast in Harvard Square" },
-        { "t": "9:00", "e": "Arrive at course (@ King) · get oars · check equipment" },
-        { "t": "10:00", "e": "Row #1 — Rattle Test" },
-        { "t": "12:00 PM", "e": "Lunch" },
-        { "t": "1:00", "e": "Row #2" },
-        { "t": "4:00", "e": "Depart for hotel · grocery store · dinner" }
-      ] },
-      { "day": "Fri · Oct 16", "rows": [
-        { "t": "7:00 AM", "e": "Breakfast" },
-        { "t": "8:00", "e": "Depart for race course and downtown adventure · pack a day bag" },
-        { "t": "10:00", "e": "RP3 session OR jog/walk the course" },
-        { "t": "12–3 PM", "e": "Row #3 · depart for downtown Boston" },
-        { "t": "7:00 PM", "e": "Meet up and return to hotel" }
-      ] },
-      { "day": "Sat · Oct 17", "rows": [
-        { "t": "7:00 AM", "e": "Breakfast" },
-        { "t": "9:30", "e": "Depart for race course · watch racing · explore as a boat" },
-        { "t": "1:00 PM", "e": "Return to hotel · rest" }
-      ] },
-      { "day": "Sun · Oct 18", "rows": [
-        { "t": "6:30 AM", "e": "Breakfast" },
-        { "t": "7:00", "e": "Depart hotel for race course" },
-        { "t": "11:22", "e": "M Youth 8+", "race": true },
-        { "t": "12:13 PM", "e": "M Youth 4+", "race": true },
-        { "t": "4:00", "e": "Depart for hotel · hang out & watch racing" }
-      ] },
-      { "day": "Mon · Oct 19", "rows": [
-        { "t": "4:00 AM", "e": "Depart for airport" },
-        { "t": "7:45 AM", "e": "Flight to Seattle · land ~10:45 AM" }
-      ] }
-    ] }
-  ],
-  "packing": [
-    "ID",
-    "Racing uni",
-    "Water bottle + hydration supplements for travel recovery",
-    "Go bag / day pack for practice & travel (GORUCK for the Henley group)",
-    "Warm layers & warm-up layers — GLC or sterile only, no other club or team branding",
-    "Rain / waterproof layers x2",
-    "Casual clothing for 6 days around Boston & the airport",
-    "Hat / visor",
-    "Sunglasses (Rule #1, always look cool)",
-    "Workout clothing — enough for 3–4 rows & a run",
-    "Running shoes & slippers / slides",
-    "Homework / entertainment for downtime",
-    "HOCR '26 Puffer — delivered to hotel"
-  ],
-  "locations": {
-    "pins": [
-      { "label": "North End Parking", "maps": "https://maps.app.goo.gl/XnArqiaStzPyDihg8?g_st=i&utm_campaign=ac-im" },
-      { "label": "Soldiers Field parking entrance", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
-      { "label": "Harvard Square parking", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
-      { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" },
-      { "label": "Weld Boathouse", "maps": "https://maps.app.goo.gl/6jt848ahp5te5iBt6" },
-      { "label": "Faneuil Hall", "maps": "https://maps.app.goo.gl/AA6Fcy7wSKdSLiRb7" }
-    ]
-  },
-  "races": [
-    { "day": "Saturday, Oct 17 · Masters & Veteran", "boats": [
-      { "bow": "20", "cls": "M Grand Master 4+ [50+]", "event": "#19", "coach": "Rob Wallace", "boat": "4227", "time": "10:00 AM", "crew": "Jeff Pozarski, Gary Thomson, Josh Binder, Andrew Kwatinetz" },
-      { "bow": "25", "cls": "W Grand Master 4+ [50+]", "event": "#21", "coach": "Rob Wallace", "boat": "4224", "time": "10:23 AM", "crew": "Elisabeth Wu, Eileen Canola, Teal Hoffmann, Bibianna Cha, Amy Weston" },
-      { "bow": "19", "cls": "W Veteran 4+ [60+, 70+]", "event": "#22", "coach": "Rob Wallace", "boat": "4225", "time": "10:36 AM", "crew": "Patrice Jackson, Anne Dalrymple, Natalie Lecher, Jennifer Emrich" }
-    ] },
-    { "day": "Sunday, Oct 18 · Youth & Championship", "boats": [
-      { "bow": "31", "cls": "W Youth 8+", "event": "#50", "coach": "Coby Stites", "boat": "3145", "time": "9:05 AM", "crew": "Mena Feudner, Bryanna DeRosa, Tianai Li, Harper Morton, Grace Ledbetter, Eliza Brooks, June Thomson, Clara Karpoff, Hannah Stacey" },
-      { "bow": "24", "cls": "W Youth 4+", "event": "#52", "coach": "Tom Kicinski", "boat": "3146", "time": "10:02 AM", "crew": "Sara Nishio, Anna Hesford, Qiangxi Droege, Grace Luebbe Davidson, Keira Weller" },
-      { "bow": "29", "cls": "M Youth 8+", "event": "#55", "coach": "Grayson Busch", "boat": "3250", "time": "11:22 AM", "crew": "Chloe Zurita, Harrison Greenstein, James Richards, Owen Baker, Rowan Gonzales, Cian Bradshaw, Zachary Langdon, Thomas Hesford, Isaac Lavely" },
-      { "bow": "80", "cls": "M Youth 4+", "event": "#57", "coach": "Elisabeth Wu", "boat": "3251", "time": "12:13 PM", "crew": "Tobin Catechi, Tim Meleshuk, Beckett Vernon, Walker Peek, Wyatt Morris" },
-      { "bow": "13", "cls": "W Championship 4+ / Mixed PR3 4+", "event": "#62", "coach": "Coby Stites", "boat": "5117", "time": "1:36 PM", "crew": "Amy Werner, Taryn Kooyers, Rosemary Varney, Anna Garrison, Gracelyn Theobald" }
-    ] }
-  ],
-  "contacts": [
-    { "name": "Coby Stites", "role": "Women's 8+", "phone": "206-390-7095", "tel": "+12063907095" },
-    { "name": "Tom Kicinski", "role": "Women's 4+", "phone": "206-949-5883", "tel": "+12069495883" },
-    { "name": "Grayson Busch", "role": "Men's V8+", "phone": "206-941-1261", "tel": "+12069411261" },
-    { "name": "Elisabeth Wu", "role": "Men's 4+", "phone": "206-487-2393", "tel": "+12064872393" },
-    { "name": "Matt Baker", "role": "Chaperone", "phone": "206-794-7515", "tel": "+12067947515" },
-    { "name": "Karen Morten", "role": "Chaperone", "phone": "206-920-6743", "tel": "+12069206743" }
-  ],
-  "footer": [
-    "Race times are from the RegattaCentral schedule and are approximate. Bow numbers are listed on each boat.",
-    "Scope: flights, lodging and food cover the team per the GLC letters. Confirm travel for the Saturday Masters/Veteran crews and the Championship 4+ separately.",
-    "Return: the parent letter governs over the draft — AS 459, departs 7:03 AM Mon.",
-    "Sources: GLC parent letter · Varsity Boys schedule · RegattaCentral entries & schedule · draft team itineraries."
-  ]
-}
-;
-  try{render(DATA);}catch(e){document.getElementById('err').hidden=false;}
-  var _l=document.getElementById('loading');if(_l)_l.remove();
+  fetch('data.json?v='+Date.now()).then(function(r){if(!r.ok)throw 0;return r.json();}).then(render).catch(function(){var l=document.getElementById('loading');if(l)l.remove();document.getElementById('err').hidden=false;});
 })();
 </script>
 </div>
