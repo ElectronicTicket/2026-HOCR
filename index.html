@@ -249,7 +249,174 @@
     document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p>Updated '+esc(d.meta.updated)+'.</p>';
     var l=document.getElementById('loading');if(l)l.remove();
   }
-  fetch('data.json?v='+Date.now()).then(function(r){if(!r.ok)throw 0;return r.json();}).then(render).catch(function(){var l=document.getElementById('loading');if(l)l.remove();document.getElementById('err').hidden=false;});
+  var DATA={
+  "_readme": "Edit this file from the GitHub app, then commit. The live page updates on its own. Keep the quotes and the commas. To add a pin, copy a line inside locations > pins and change the label and maps link. To add a resource, add a line inside resources with a label and url.",
+  "meta": {
+    "subtitle": "GLC · Oct 16–18 · Cambridge, MA",
+    "updated": "Oct 13, 2026"
+  },
+  "flights": {
+    "outbound": { "label": "Out · Wed Oct 14", "route": "SEA → BOS", "flight": "AS 214", "time": "11:00 PM → 7:26 AM Thu" },
+    "return": { "label": "Back · Mon Oct 19", "route": "BOS → SEA", "flight": "AS 459", "time": "7:03 AM → 10:20 AM" },
+    "confirmation": "QTUBTB",
+    "note": "At Alaska counters by 8:00 PM Wed. One carry-on + one personal bag. Checked bags $30, rower pays."
+  },
+  "vans": {
+    "vendor": "Budget",
+    "fleet": "2 minivans + 2 twelve-passenger vans",
+    "pickup": "BOS airport · Thu, Oct 15",
+    "return": "BOS airport · Mon, Oct 19 · 5:00 AM",
+    "fuelCard": "Jeny's card",
+    "reservations": [
+      { "holder": "Grayson Busch", "lines": ["Minivan — 01422371US6", "12-passenger — 01422093US1"] },
+      { "holder": "Coby Stites", "lines": ["Minivan — 01422243US4", "12-passenger — 01421963US4"] }
+    ]
+  },
+  "hotel": {
+    "name": "Hilton Garden Inn Boston-Burlington",
+    "address": "5 Wheeler Rd, Burlington, MA 01802",
+    "note": "Team, coaches & chaperones at one hotel.",
+    "phone": "(781) 272-8800",
+    "tel": "+17812728800",
+    "maps": "https://www.google.com/maps/search/?api=1&query=Hilton%20Garden%20Inn%20Boston-Burlington%205%20Wheeler%20Rd%20Burlington%20MA%2001802"
+  },
+  "food": [
+    "Hotel breakfast each morning",
+    "One team dinner covered. Post-workout snacks & drinks provided.",
+    "Pocket money for lunches, dinners, and mementos. Plan ahead and coordinate."
+  ],
+  "links": {
+    "regatta": "https://www.regattacentral.com/regatta/?job_id=10096&org_id=0",
+    "waiver": "https://waivers.regattacentral.com/hocr2026"
+  },
+  "resources": [
+    { "label": "HOCR Rules & Guidelines", "url": "https://hocr.org/competitors/rules-guidelines/" }
+  ],
+  "itineraries": [
+    { "team": "Girls", "days": [
+      { "day": "Wed · Oct 14", "rows": [ { "t": "8:00 PM", "e": "Meet at airport, fly to Boston" } ] },
+      { "day": "Thu · Oct 15", "rows": [
+        { "t": "7:30 AM", "e": "Arrive Boston · pick up vans · breakfast Harvard Sq (Coby & Tom get oars)" },
+        { "t": "9:00", "e": "Newell boathouse for oars → Weld boathouse, check equipment" },
+        { "t": "10:30", "e": "Row #1 — Gee Whiz / shakedown, w/ coaches" },
+        { "t": "12:30 PM", "e": "Lunch" },
+        { "t": "1:45", "e": "Row #2 — steady state w/ tactical bursts, w/ coaches" },
+        { "t": "3:30", "e": "Depart for hotel · stop Whole Foods / Trader Joe's" },
+        { "t": "5:00", "e": "Arrive hotel · dinner · crash" }
+      ] },
+      { "day": "Fri · Oct 16", "rows": [
+        { "t": "8:00 AM", "e": "Breakfast · boathouse (pack for day out) · Row #3 near race pace, no coaches · snacks + AAR" },
+        { "t": "11:00", "e": "Row #4 if needed; else lunch Harvard Sq" },
+        { "t": "12:30 PM", "e": "Depart for Boston" },
+        { "t": "7:00 PM", "e": "Meet at Faneuil Hall → return to hotel" }
+      ] },
+      { "day": "Sat · Oct 17", "rows": [
+        { "t": "8:00 AM", "e": "Breakfast" },
+        { "t": "10:00", "e": "Leave for racecourse · merch · watch racing" },
+        { "t": "1:00 PM", "e": "Return to hotel · rest" }
+      ] },
+      { "day": "Sun · Oct 18", "rows": [
+        { "t": "6:00 AM", "e": "Breakfast" },
+        { "t": "9:02", "e": "W Youth 8+", "race": true },
+        { "t": "9:56", "e": "W Youth 4+", "race": true },
+        { "t": "11:13", "e": "M Youth 8+", "race": true },
+        { "t": "12:13 PM", "e": "M Youth 4+", "race": true },
+        { "t": "1:00 PM", "e": "Return to hotel · chill" }
+      ] },
+      { "day": "Mon · Oct 19", "rows": [
+        { "t": "4:00 AM", "e": "Depart hotel for airport" },
+        { "t": "7:45 AM", "e": "Flight to Seattle · arrive ~10:45 AM" }
+      ] }
+    ] },
+    { "team": "Boys", "days": [
+      { "day": "Wed · Oct 14", "rows": [ { "t": "8:00 PM", "e": "Meet at SEA-TAC" } ] },
+      { "day": "Thu · Oct 15", "rows": [
+        { "t": "7:00 AM", "e": "Land in Boston · pick up vans · breakfast in Harvard Square" },
+        { "t": "9:00", "e": "Arrive at course (@ King) · get oars · check equipment" },
+        { "t": "10:00", "e": "Row #1 — Rattle Test" },
+        { "t": "12:00 PM", "e": "Lunch" },
+        { "t": "1:00", "e": "Row #2" },
+        { "t": "4:00", "e": "Depart for hotel · grocery store · dinner" }
+      ] },
+      { "day": "Fri · Oct 16", "rows": [
+        { "t": "7:00 AM", "e": "Breakfast" },
+        { "t": "8:00", "e": "Depart for race course and downtown adventure · pack a day bag" },
+        { "t": "10:00", "e": "RP3 session OR jog/walk the course" },
+        { "t": "12–3 PM", "e": "Row #3 · depart for downtown Boston" },
+        { "t": "7:00 PM", "e": "Meet up and return to hotel" }
+      ] },
+      { "day": "Sat · Oct 17", "rows": [
+        { "t": "7:00 AM", "e": "Breakfast" },
+        { "t": "9:30", "e": "Depart for race course · watch racing · explore as a boat" },
+        { "t": "1:00 PM", "e": "Return to hotel · rest" }
+      ] },
+      { "day": "Sun · Oct 18", "rows": [
+        { "t": "6:30 AM", "e": "Breakfast" },
+        { "t": "7:00", "e": "Depart hotel for race course" },
+        { "t": "11:22", "e": "M Youth 8+", "race": true },
+        { "t": "12:13 PM", "e": "M Youth 4+", "race": true },
+        { "t": "4:00", "e": "Depart for hotel · hang out & watch racing" }
+      ] },
+      { "day": "Mon · Oct 19", "rows": [
+        { "t": "4:00 AM", "e": "Depart for airport" },
+        { "t": "7:45 AM", "e": "Flight to Seattle · land ~10:45 AM" }
+      ] }
+    ] }
+  ],
+  "packing": [
+    "ID",
+    "Racing uni",
+    "Water bottle + hydration supplements for travel recovery",
+    "Go bag / day pack for practice & travel (GORUCK for the Henley group)",
+    "Warm layers & warm-up layers — GLC or sterile only, no other club or team branding",
+    "Rain / waterproof layers x2",
+    "Casual clothing for 6 days around Boston & the airport",
+    "Hat / visor",
+    "Sunglasses (Rule #1, always look cool)",
+    "Workout clothing — enough for 3–4 rows & a run",
+    "Running shoes & slippers / slides",
+    "Homework / entertainment for downtime",
+    "HOCR '26 Puffer — delivered to hotel"
+  ],
+  "locations": {
+    "pins": [
+      { "label": "North End Parking", "maps": "https://maps.app.goo.gl/XnArqiaStzPyDihg8?g_st=i&utm_campaign=ac-im" },
+      { "label": "Soldiers Field parking entrance", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
+      { "label": "Harvard Square parking", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
+      { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" },
+      { "label": "Weld Boathouse", "maps": "https://maps.app.goo.gl/6jt848ahp5te5iBt6" },
+      { "label": "Faneuil Hall", "maps": "https://maps.app.goo.gl/AA6Fcy7wSKdSLiRb7" }
+    ]
+  },
+  "races": [
+    { "day": "Saturday, Oct 17 · Masters & Veteran", "boats": [
+      { "bow": "20", "cls": "M Grand Master 4+ [50+]", "event": "#19", "coach": "Rob Wallace", "boat": "4227", "time": "10:00 AM", "crew": "Jeff Pozarski, Gary Thomson, Josh Binder, Andrew Kwatinetz" },
+      { "bow": "25", "cls": "W Grand Master 4+ [50+]", "event": "#21", "coach": "Rob Wallace", "boat": "4224", "time": "10:23 AM", "crew": "Elisabeth Wu, Eileen Canola, Teal Hoffmann, Bibianna Cha, Amy Weston" },
+      { "bow": "19", "cls": "W Veteran 4+ [60+, 70+]", "event": "#22", "coach": "Rob Wallace", "boat": "4225", "time": "10:36 AM", "crew": "Patrice Jackson, Anne Dalrymple, Natalie Lecher, Jennifer Emrich" }
+    ] },
+    { "day": "Sunday, Oct 18 · Youth & Championship", "boats": [
+      { "bow": "31", "cls": "W Youth 8+", "event": "#50", "coach": "Coby Stites", "boat": "3145", "time": "9:05 AM", "crew": "Mena Feudner, Bryanna DeRosa, Tianai Li, Harper Morton, Grace Ledbetter, Eliza Brooks, June Thomson, Clara Karpoff, Hannah Stacey" },
+      { "bow": "24", "cls": "W Youth 4+", "event": "#52", "coach": "Tom Kicinski", "boat": "3146", "time": "10:02 AM", "crew": "Sara Nishio, Anna Hesford, Qiangxi Droege, Grace Luebbe Davidson, Keira Weller" },
+      { "bow": "29", "cls": "M Youth 8+", "event": "#55", "coach": "Grayson Busch", "boat": "3250", "time": "11:22 AM", "crew": "Chloe Zurita, Harrison Greenstein, James Richards, Owen Baker, Rowan Gonzales, Cian Bradshaw, Zachary Langdon, Thomas Hesford, Isaac Lavely" },
+      { "bow": "80", "cls": "M Youth 4+", "event": "#57", "coach": "Elisabeth Wu", "boat": "3251", "time": "12:13 PM", "crew": "Tobin Catechi, Tim Meleshuk, Beckett Vernon, Walker Peek, Wyatt Morris" },
+      { "bow": "13", "cls": "W Championship 4+ / Mixed PR3 4+", "event": "#62", "coach": "Coby Stites", "boat": "5117", "time": "1:36 PM", "crew": "Amy Werner, Taryn Kooyers, Rosemary Varney, Anna Garrison, Gracelyn Theobald" }
+    ] }
+  ],
+  "contacts": [
+    { "name": "Coby Stites", "role": "Women's 8+", "phone": "206-390-7095", "tel": "+12063907095" },
+    { "name": "Tom Kicinski", "role": "Women's 4+", "phone": "206-949-5883", "tel": "+12069495883" },
+    { "name": "Grayson Busch", "role": "Men's V8+", "phone": "206-941-1261", "tel": "+12069411261" },
+    { "name": "Elisabeth Wu", "role": "Men's 4+", "phone": "206-487-2393", "tel": "+12064872393" },
+    { "name": "Matt Baker", "role": "Chaperone", "phone": "206-794-7515", "tel": "+12067947515" },
+    { "name": "Karen Morten", "role": "Chaperone", "phone": "206-920-6743", "tel": "+12069206743" }
+  ],
+  "footer": [
+    "Race times are from the RegattaCentral schedule and are approximate. Bow numbers are listed on each boat.",
+    "Scope: flights, lodging and food cover the team per the GLC letters. Confirm travel for the Saturday Masters/Veteran crews and the Championship 4+ separately.",
+    "Return: the parent letter governs over the draft — AS 459, departs 7:03 AM Mon.",
+    "Sources: GLC parent letter · Varsity Boys schedule · RegattaCentral entries & schedule · draft team itineraries."
+  ]
+};try{render(DATA);}catch(e){document.getElementById('err').hidden=false;}var _l=document.getElementById('loading');if(_l)_l.remove();
 })();
 </script>
 </div>
