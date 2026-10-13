@@ -179,7 +179,7 @@
       <a href="#food">Food</a>
       <a href="#plan">Itinerary</a>
       <a href="#packing">Packing</a>
-      <a href="#parking">Parking</a>
+      <a href="#locations">Locations</a>
       <a href="#races">Races</a>
       <a href="#contacts">Contacts</a>
     </nav>
@@ -194,7 +194,7 @@
   <section id="food"><h2 class="sh">Food &amp; Links</h2><div id="c-food"></div></section>
   <section id="plan"><h2 class="sh">Team Itinerary <span class="muted" style="font-weight:400">· draft</span></h2><div id="c-plan"></div></section>
   <section id="packing"><h2 class="sh">Packing List</h2><div id="c-packing"></div></section>
-  <section id="parking"><h2 class="sh">Parking</h2><div id="c-parking"></div></section>
+  <section id="locations"><h2 class="sh">Locations</h2><div id="c-locations"></div></section>
   <section id="races"><h2 class="sh">GLC Entries · 8 Boats</h2><div id="c-races"></div></section>
   <section id="contacts"><h2 class="sh">Coaches &amp; Chaperones</h2><div id="c-contacts"></div></section>
   <footer id="c-footer"></footer>
@@ -237,9 +237,9 @@
     var segEl=document.querySelector('#c-plan .seg');
     if(segEl){segEl.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=b.getAttribute('data-i');segEl.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});document.querySelectorAll('#c-plan .itin-team').forEach(function(x){x.hidden=(x.getAttribute('data-i')!==i);});});}
     document.getElementById('c-packing').innerHTML='<div class="card"><ul class="list pack">'+(d.packing||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
-    var pk=d.parking||{};var pins=pk.pins||[];
+    var pk=d.locations||{};var pins=pk.pins||[];
     var pinsHTML=pins.length?pins.map(function(p){return '<div class="pin"><div class="pl"><div class="pn">'+esc(p.label)+'</div>'+(p.detail?'<div class="pd">'+esc(p.detail)+'</div>':'')+'</div><a class="btn" href="'+esc(p.maps)+'">Open in Maps</a></div>';}).join(''):'<div class="muted">'+esc(pk.note||'To be added.')+'</div>';
-    document.getElementById('c-parking').innerHTML='<div class="card">'+((pins.length&&pk.note)?'<div class="muted" style="margin-bottom:8px">'+esc(pk.note)+'</div>':'')+pinsHTML+'</div>';
+    document.getElementById('c-locations').innerHTML='<div class="card">'+((pins.length&&pk.note)?'<div class="muted" style="margin-bottom:8px">'+esc(pk.note)+'</div>':'')+pinsHTML+'</div>';
     document.getElementById('c-races').innerHTML=(d.races||[]).map(function(g){return '<div class="race-day">'+esc(g.day)+'</div>'+g.boats.map(function(b){return '<div class="boat"><div class="r1"><div class="bow"><span class="n">'+esc(b.bow)+'</span><span class="l">Bow</span></div><div class="binfo"><div class="cls">'+esc(b.cls)+'</div><div class="meta"><b>'+esc(b.event)+'</b>'+(b.coach?' · '+esc(b.coach):'')+' · Boat '+esc(b.boat)+'</div></div><div class="time-tag"><div class="tt">'+esc(b.time)+'</div></div></div><div class="crew"><div class="cl">Crew</div>'+esc(b.crew)+'</div></div>';}).join('');}).join('');
     document.getElementById('c-contacts').innerHTML='<div class="card">'+(d.contacts||[]).map(function(c){return '<a class="contact" href="tel:'+esc(c.tel)+'"><span><span class="nm">'+esc(c.name)+'</span><br><span class="rl">'+esc(c.role)+'</span></span><span class="ph">'+esc(c.phone)+'</span></a>';}).join('')+'</div>';
     document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p>Updated '+esc(d.meta.updated)+'.</p>';
@@ -371,9 +371,14 @@
     "Homework / entertainment for downtime",
     "HOCR '26 Puffer — delivered to hotel"
   ],
-  "parking": {
-    "note": "Map pins to be added.",
-    "pins": []
+  "locations": {
+    "pins": [
+      { "label": "The North End", "maps": "https://maps.app.goo.gl/XnArqiaStzPyDihg8?g_st=i&utm_campaign=ac-im" },
+      { "label": "Soldiers Field parking entrance", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
+      { "label": "Harvard Square parking", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
+      { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" },
+      { "label": "Weld Boathouse", "maps": "https://maps.app.goo.gl/6jt848ahp5te5iBt6" }
+    ]
   },
   "races": [
     { "day": "Saturday, Oct 17 · Masters & Veteran", "boats": [
