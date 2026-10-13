@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>HOCR 2026 Phone Guide</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+  /* Phone-first trip guide: single column, sticky quick-nav, tappable cards.
+     GLC palette: forest green, sky blue, gold trim, white. Full light + dark themes. */
+  :root{
+    --bg:#eef2ec; --surface:#ffffff; --surface-2:#f6f9f4;
+    --ink:#17261a; --ink-soft:#54644f;
+    --green:#1f5d20; --green-dk:#0b2b08;
+    --sky:#2f7fb0; --sky-bg:#e4f0f7;
+    --gold:#c3992a; --line:#dde6d9; --chip:#eaf1e6;
+    color-scheme: light;
+    --f-disp:"Oswald","DejaVu Sans Condensed","Arial Narrow",sans-serif;
+    --f-body:"Source Sans 3","Carlito","DejaVu Sans",system-ui,Segoe UI,Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --bg:#0d110c; --surface:#161d15; --surface-2:#1b241a;
+    --ink:#e9efe6; --ink-soft:#9fb09a;
+    --green:#5ec061; --green-dk:#0b2b08;
+    --sky:#6fc1ec; --sky-bg:#13303f;
+    --gold:#d9b048; --line:#2a332a; --chip:#1c261b; color-scheme: dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0d110c; --surface:#161d15; --surface-2:#1b241a;
+    --ink:#e9efe6; --ink-soft:#9fb09a;
+    --green:#5ec061; --green-dk:#0b2b08;
+    --sky:#6fc1ec; --sky-bg:#13303f;
+    --gold:#d9b048; --line:#2a332a; --chip:#1c261b; color-scheme: dark;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+       font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
+  .app{max-width:560px;margin:0 auto;background:var(--bg)}
+
+  /* sticky header + nav */
+  .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+       background:var(--surface);border-bottom:1px solid var(--line);
+       box-shadow:0 1px 6px rgba(10,30,10,.08)}
+  .brandbar{height:5px;background:var(--green-dk);border-bottom:2px solid #87ceeb}
+  .head{display:flex;align-items:center;gap:11px;padding:9px 16px}
+  .head svg{height:40px;width:auto;flex:0 0 auto}
+  .htx{min-width:0;flex:1}
+  .htx .t{font-family:var(--f-disp);font-weight:700;color:var(--green);text-transform:uppercase;
+          font-size:18px;line-height:1;letter-spacing:.01em}
+  .htx .s{font-size:12px;color:var(--ink-soft);margin-top:2px}
+  nav{display:flex;gap:7px;overflow-x:auto;padding:8px 16px;-webkit-overflow-scrolling:touch;
+      scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:0 0 auto;font-family:var(--f-disp);font-weight:600;text-transform:uppercase;
+        letter-spacing:.05em;font-size:12px;color:var(--green);background:var(--chip);
+        border:1px solid var(--line);border-radius:999px;padding:6px 13px;text-decoration:none}
+
+  main{padding:14px 16px 40px}
+  section{scroll-margin-top:118px;margin-bottom:16px}
+  .sh{font-family:var(--f-disp);font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+      font-size:13px;color:var(--green);margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .sh::after{content:"";flex:1;height:2px;background:var(--sky);opacity:.4;border-radius:2px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+        padding:14px 15px;box-shadow:0 1px 3px rgba(10,30,10,.05)}
+  .card + .card{margin-top:10px}
+
+  /* flights */
+  .leg{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0}
+  .leg + .leg{border-top:1px solid var(--line)}
+  .leg .lab{font-family:var(--f-disp);font-weight:600;text-transform:uppercase;font-size:11px;
+            letter-spacing:.05em;color:var(--ink-soft)}
+  .leg .rt{font-family:var(--f-disp);font-weight:700;font-size:20px;letter-spacing:.02em}
+  .leg .rt .ar{color:var(--sky)}
+  .leg .tm{font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
+  .leg .fl{font-family:var(--f-disp);font-weight:600;color:var(--sky);font-size:12px}
+  .pill{display:inline-block;background:var(--sky-bg);color:var(--sky);font-weight:700;
+        font-variant-numeric:tabular-nums;letter-spacing:.08em;border-radius:7px;padding:3px 9px;font-size:14px}
+  .callout{margin-top:10px;background:var(--surface-2);border-left:3px solid var(--sky);
+           border-radius:8px;padding:9px 11px;font-size:14px}
+  .muted{color:var(--ink-soft);font-size:13px}
+
+  /* key-value rows (vans, hotel) */
+  .kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:15px}
+  .kv + .kv{border-top:1px solid var(--line)}
+  .kv .k{font-family:var(--f-disp);font-weight:600;text-transform:uppercase;font-size:11px;
+         letter-spacing:.05em;color:var(--ink-soft);flex:0 0 auto;padding-top:2px}
+  .kv .v{text-align:right;min-width:0}
+  .tbd{color:var(--sky);font-weight:600}
+  a.link{color:var(--sky);text-decoration:none;font-weight:600;word-break:break-word}
+  a.btn{display:inline-flex;align-items:center;gap:7px;background:var(--sky-bg);color:var(--sky);
+        font-weight:700;text-decoration:none;border-radius:10px;padding:10px 13px;font-size:15px;
+        border:1px solid transparent}
+  .btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+  ul.list{margin:2px 0 0;padding-left:20px;font-size:15px}
+  ul.list li{margin:4px 0}
+
+  /* itinerary */
+  .day{margin-top:10px}
+  .day:first-child{margin-top:0}
+  .dayh{font-family:var(--f-disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+        color:var(--ink);font-size:13px;background:var(--chip);border-radius:8px;padding:6px 10px}
+  .ir{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:6px 4px;
+      border-bottom:1px solid var(--line);font-size:14px}
+  .ir:last-child{border-bottom:none}
+  .ir .it{color:var(--sky);font-weight:700;font-variant-numeric:tabular-nums;font-size:13px}
+  .ir .ie{min-width:0}
+  .ir.race .ie{color:var(--green);font-weight:700}
+
+  /* races */
+  .race-day{font-family:var(--f-disp);font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+            color:var(--green);font-size:12px;margin:14px 0 8px}
+  .race-day:first-child{margin-top:0}
+  .boat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+        box-shadow:0 1px 3px rgba(10,30,10,.05)}
+  .boat + .boat{margin-top:10px}
+  .boat .r1{display:flex;align-items:center;gap:11px}
+  .bow{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+       background:var(--green);color:#fff;border-radius:11px;width:58px;padding:6px 0}
+  .bow .n{font-family:var(--f-disp);font-weight:700;font-size:25px;line-height:1;font-variant-numeric:tabular-nums}
+  .bow .l{font-family:var(--f-disp);font-weight:600;text-transform:uppercase;font-size:8.5px;letter-spacing:.1em;opacity:.85}
+  .binfo{min-width:0;flex:1}
+  .binfo .cls{font-family:var(--f-disp);font-weight:700;font-size:17px;color:var(--ink);line-height:1.05}
+  .binfo .meta{font-size:12.5px;color:var(--ink-soft);margin-top:3px}
+  .binfo .meta b{color:var(--sky);font-variant-numeric:tabular-nums}
+  .time-tag{margin-left:auto;flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums}
+  .time-tag .tt{font-family:var(--f-disp);font-weight:700;font-size:15px;color:var(--ink)}
+  .crew{margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink);line-height:1.35}
+  .crew .cl{font-family:var(--f-disp);font-weight:600;text-transform:uppercase;font-size:10px;
+            letter-spacing:.08em;color:var(--ink-soft);margin-bottom:2px}
+
+  /* contacts */
+  .contact{display:flex;align-items:center;gap:12px;padding:10px 0;text-decoration:none;color:inherit}
+  .contact + .contact{border-top:1px solid var(--line)}
+  .contact .nm{font-family:var(--f-disp);font-weight:600;font-size:16px;color:var(--ink);line-height:1.05}
+  .contact .rl{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em}
+  .contact .ph{margin-left:auto;font-weight:700;color:var(--sky);font-variant-numeric:tabular-nums;
+               background:var(--sky-bg);border-radius:9px;padding:8px 12px;white-space:nowrap}
+
+  footer{color:var(--ink-soft);font-size:11.5px;line-height:1.5;padding:4px 2px 0}
+  footer b{color:var(--ink)}
+  footer p{margin:4px 0}
+</style>
+</head>
+<body>
+
+
+<div class="app">
+  <div class="top">
+    <div class="brandbar"></div>
+    <div class="head">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375.32966 488.65104"><defs><style>.c1,.c19,.c6{fill:#072005}.c1,.c13,.c14,.c8,.c9{stroke:gold}.c1,.c10,.c12,.c13,.c14,.c15,.c17,.c18,.c19,.c20,.c5,.c7,.c8,.c9{stroke-miterlimit:10}.c1{stroke-width:1.58px}.c2{fill:gold}.c3{fill:#87ceeb}.c10,.c18,.c4,.c5,.c7{fill:#fff}.c15,.c17,.c5{stroke:#072005}.c12,.c17,.c5{stroke-width:.25px}.c7{stroke:#fff;stroke-width:.78px}.c12,.c13,.c14,.c15,.c16,.c17,.c8{fill:none}.c8{stroke-width:11px}.c9{stroke-width:3.4px}.c10,.c12,.c18,.c19,.c20{stroke:#000}.c10{stroke-width:14.77px}.c11{fill:#ff9}.c13{stroke-width:3px}.c14{stroke-width:2px}.c15{stroke-width:.5px}.c18{stroke-width:.75px}.c19,.c20{stroke-width:1.07px}.c20{fill:#323232}</style></defs><g transform="translate(-771.88384 -296.02849)"><polygon class="c7" points="1071.672 599.401 1045.709 629.401 1016.204 644.401 986.7 653.401 962.92 671.401 945.938 656.401 909.636 645.401 886.296 633.419 854.682 601.401 854.682 372.107 1071.672 372.107 1071.672 599.401"/><path class="c8" d="M1045.4234,629.40985q-9.35458,5.622-19.25238,10.38982-9.8892,4.75916-20.27008,8.61219-10.3722,3.84435-21.18448,6.73058c-16.879,3.75424-19.522,11.77257-21.83316,11.70837-.99082-.02752-3.9633-8.2844-22.15833-11.70837q-10.80363-2.87757-21.1845-6.73058-10.3722-3.8444-20.27006-8.61219-9.88924-4.75916-19.25253-10.38982a52.10931,52.10931,0,0,1-23.54674-31.214,51.69514,51.69514,0,0,1-1.7505-13.34708V372.11749h216V584.84887a51.9375,51.9375,0,0,1-14.7379,36.19716A52.3663,52.3663,0,0,1,1045.4234,629.40985Z"/><path class="c9" d="M963.04278,493.54453V534.693h14.64083V552.2504H944.35353V461.04465h32.19431v14.01527h60.47552V413.259H927.21377l-47.49621,35.49737.80525,116.71131,43.52543,36.007h67.47207c3.77334,0,5.49586,0,44.05117-36.18l2.58766-2.42961V493.54453Z"/><path class="c10" d="M929.924,421.45958l-41.99238,31.38487.75024,108.74254L926.98559,593.274h64.5203c2.2507,0,38.43917-33.9586,38.43917-33.9586V501.74525H971.22867v24.74737h14.64v33.9586H936.13951V452.84445h48.59341v14.01483h44.07637v-45.3997Z"/><path class="c2" d="M1082.86926,377.78183a335.44527,335.44527,0,0,0-246.97119,0q-10.71184-27.05525-21.42383-54.11041a393.64266,393.64266,0,0,1,289.81885,0Q1093.58124,350.72667,1082.86926,377.78183Z"/><path class="c3" d="M1084.23962,374.32056a339.168,339.168,0,0,0-249.712,0q-9.3414-23.59387-18.683-47.18784a389.91955,389.91955,0,0,1,287.07794,0Q1093.5813,350.72664,1084.23962,374.32056Z"/><path class="c4" d="M1086.46655,368.696a345.21747,345.21747,0,0,0-254.16583,0q-7.11465-17.96932-14.22913-35.93863a383.86986,383.86986,0,0,1,282.62409,0Q1093.58112,350.72666,1086.46655,368.696Z"/><path class="c2" d="M1064.68591,760.15027a583.258,583.258,0,0,1-209.28784.18q-.00009-24.56406,0-49.12787a583.26074,583.26074,0,0,0,209.28784-.18Z"/><path class="c3" d="M1064.676,757.2735a583.26534,583.26534,0,0,1-209.88074.60254V715.03333q15.79065,2.883,31.6886,4.88958a583.37369,583.37369,0,0,0,178.19214-5.49212Q1064.67584,735.85211,1064.676,757.2735Z"/><path class="c4" d="M1067.43335,751.80725a583.25905,583.25905,0,0,1-215.39111.39758q-.00009-16.31469,0-32.62933a583.25491,583.25491,0,0,0,213.40088-.02661Q1066.43884,735.67976,1067.43335,751.80725Z"/><path class="c2" d="M886.30967,733.90485c-31.75232,10.28668-62.38947,13.57891-87.5066-8.40192-2.08606-1.82556-2.73993-45.629-1.93628-36.05164,2.28071,27.1792,88.15229,5.381,88.15229,5.381S905.63858,727.64294,886.30967,733.90485Z"/><path class="c2" d="M1033.18538,733.89222c31.75232,10.28669,62.38947,13.57892,87.50659-8.40191,2.08606-1.82556,2.73993-45.629,1.93628-36.05164-2.2807,27.1792-88.15228,5.381-88.15228,5.381S1013.85646,727.63032,1033.18538,733.89222Z"/></g></svg>
+      <div class="htx">
+        <div class="t">HOCR 2026</div>
+        <div class="s">GLC Girls · Oct 16–18 · Cambridge, MA</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#flights">Flights</a>
+      <a href="#vans">Vans</a>
+      <a href="#hotel">Hotel</a>
+      <a href="#food">Food</a>
+      <a href="#plan">Itinerary</a>
+      <a href="#races">Races</a>
+      <a href="#contacts">Contacts</a>
+    </nav>
+  </div>
+
+  <main>
+    <section id="flights">
+      <h2 class="sh">Flights · Alaska</h2>
+      <div class="card">
+        <div class="leg">
+          <div><div class="lab">Out · Wed Oct 14</div><div class="rt">SEA <span class="ar">→</span> BOS</div></div>
+          <div><div class="fl">AS 214</div><div class="tm">11:00 PM → 7:26 AM Thu</div></div>
+        </div>
+        <div class="leg">
+          <div><div class="lab">Back · Mon Oct 19</div><div class="rt">BOS <span class="ar">→</span> SEA</div></div>
+          <div><div class="fl">AS 459</div><div class="tm">7:03 AM → 10:20 AM</div></div>
+        </div>
+        <div class="callout">
+          Confirmation <span class="pill">QTUBTB</span><br>
+          <b>At Alaska counters by 8:00 PM Wed.</b> One carry-on + one personal bag. Checked bags $30, rower pays.
+        </div>
+      </div>
+    </section>
+
+    <section id="vans">
+      <h2 class="sh">Ground Transport · Vans</h2>
+      <div class="card">
+        <div class="kv"><span class="k">Vendor</span><span class="v tbd">To be added</span></div>
+        <div class="kv"><span class="k">Confirmation</span><span class="v tbd">To be added</span></div>
+        <div class="kv"><span class="k">Pickup</span><span class="v">BOS airport · Thu, Oct 15</span></div>
+        <div class="kv"><span class="k">Return</span><span class="v tbd">To be added</span></div>
+        <div class="kv"><span class="k">Vans / drivers</span><span class="v tbd">To be added</span></div>
+        <div class="kv"><span class="k">Fuel card</span><span class="v tbd">To be added</span></div>
+      </div>
+    </section>
+
+    <section id="hotel">
+      <h2 class="sh">Hotel</h2>
+      <div class="card">
+        <div style="font-family:var(--f-disp);font-weight:700;font-size:18px;color:var(--ink)">Hilton Garden Inn Boston-Burlington</div>
+        <div class="muted" style="margin-top:3px">5 Wheeler Rd, Burlington, MA 01802<br>Team, coaches &amp; chaperones at one hotel.</div>
+        <div class="btnrow">
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Hilton%20Garden%20Inn%20Boston-Burlington%205%20Wheeler%20Rd%20Burlington%20MA%2001802">Open in Maps</a>
+          <a class="btn" href="tel:+17812728800">Call (781) 272-8800</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="food">
+      <h2 class="sh">Food</h2>
+      <div class="card">
+        <ul class="list">
+          <li>Hotel breakfast each morning</li>
+          <li>One team dinner covered. Post-workout snacks &amp; drinks provided.</li>
+          <li>Pocket money for 4 lunches, 3 dinners, and mementos.</li>
+        </ul>
+        <div class="btnrow" style="margin-top:10px">
+          <a class="btn" href="https://www.regattacentral.com/regatta/?job_id=10096&org_id=0">Regatta page</a>
+          <a class="btn" href="https://waivers.regattacentral.com/hocr2026">Athlete waiver</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="plan">
+      <h2 class="sh">Team Itinerary <span class="muted" style="font-weight:400">· draft</span></h2>
+      <div class="card">
+        <div class="day"><div class="dayh">Wed · Oct 14</div>
+          <div class="ir"><span class="it">8:00 PM</span><span class="ie">Meet at airport, fly to Boston</span></div>
+        </div>
+        <div class="day"><div class="dayh">Thu · Oct 15</div>
+          <div class="ir"><span class="it">7:30 AM</span><span class="ie">Arrive Boston · pick up vans · breakfast Harvard Sq (Coby &amp; Tom get oars)</span></div>
+          <div class="ir"><span class="it">9:00</span><span class="ie">Newell boathouse for oars → Weld boathouse, check equipment</span></div>
+          <div class="ir"><span class="it">10:30</span><span class="ie">Row #1 — Gee Whiz / shakedown, w/ coaches</span></div>
+          <div class="ir"><span class="it">12:30 PM</span><span class="ie">Lunch</span></div>
+          <div class="ir"><span class="it">1:45</span><span class="ie">Row #2 — steady state w/ tactical bursts, w/ coaches</span></div>
+          <div class="ir"><span class="it">3:30</span><span class="ie">Depart for hotel · stop Whole Foods / Trader Joe's</span></div>
+          <div class="ir"><span class="it">5:00</span><span class="ie">Arrive hotel · dinner · crash</span></div>
+        </div>
+        <div class="day"><div class="dayh">Fri · Oct 16</div>
+          <div class="ir"><span class="it">8:00 AM</span><span class="ie">Breakfast · boathouse (pack for day out) · Row #3 near race pace, no coaches · snacks + AAR</span></div>
+          <div class="ir"><span class="it">11:00</span><span class="ie">Row #4 if needed; else lunch Harvard Sq</span></div>
+          <div class="ir"><span class="it">12:30 PM</span><span class="ie">Depart for Boston</span></div>
+          <div class="ir"><span class="it">7:00 PM</span><span class="ie">Meet at Faneuil Hall → return to hotel</span></div>
+        </div>
+        <div class="day"><div class="dayh">Sat · Oct 17</div>
+          <div class="ir"><span class="it">8:00 AM</span><span class="ie">Breakfast</span></div>
+          <div class="ir"><span class="it">10:00</span><span class="ie">Leave for racecourse · merch · watch racing</span></div>
+          <div class="ir"><span class="it">1:00 PM</span><span class="ie">Return to hotel · rest</span></div>
+        </div>
+        <div class="day"><div class="dayh">Sun · Oct 18</div>
+          <div class="ir"><span class="it">6:00 AM</span><span class="ie">Breakfast</span></div>
+          <div class="ir race"><span class="it">9:02</span><span class="ie">W Youth 8+</span></div>
+          <div class="ir race"><span class="it">9:56</span><span class="ie">W Youth 4+</span></div>
+          <div class="ir race"><span class="it">11:13</span><span class="ie">M Youth 8+</span></div>
+          <div class="ir race"><span class="it">12:13 PM</span><span class="ie">M Youth 4+</span></div>
+          <div class="ir"><span class="it">1:00 PM</span><span class="ie">Return to hotel · chill</span></div>
+        </div>
+        <div class="day"><div class="dayh">Mon · Oct 19</div>
+          <div class="ir"><span class="it">4:00 AM</span><span class="ie">Depart hotel for airport</span></div>
+          <div class="ir"><span class="it">7:45 AM</span><span class="ie">Flight to Seattle · arrive ~10:45 AM</span></div>
+        </div>
+        <p class="muted" style="margin:10px 0 0">Draft staging times run a few minutes ahead of the official schedule. Race-day start times are on each boat below.</p>
+      </div>
+    </section>
+
+    <section id="races">
+      <h2 class="sh">GLC Entries · 8 Boats</h2>
+
+      <div class="race-day">Saturday, Oct 17 · Masters &amp; Veteran</div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">20</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">M Grand Master 4+ [50+]</div><div class="meta"><b>#19</b> · Rob Wallace · Boat 4227</div></div>
+          <div class="time-tag"><div class="tt">10:00 AM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Jeff Pozarski, Gary Thomson, Josh Binder, Andrew Kwatinetz</div>
+      </div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">25</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">W Grand Master 4+ [50+]</div><div class="meta"><b>#21</b> · Rob Wallace · Boat 4224</div></div>
+          <div class="time-tag"><div class="tt">10:23 AM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Elisabeth Wu, Eileen Canola, Teal Hoffmann, Bibianna Cha, Amy Weston</div>
+      </div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">19</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">W Veteran 4+ [60+, 70+]</div><div class="meta"><b>#22</b> · Rob Wallace · Boat 4225</div></div>
+          <div class="time-tag"><div class="tt">10:36 AM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Patrice Jackson, Anne Dalrymple, Natalie Lecher, Jennifer Emrich</div>
+      </div>
+
+      <div class="race-day">Sunday, Oct 18 · Youth &amp; Championship</div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">31</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">W Youth 8+</div><div class="meta"><b>#50</b> · Coby Stites · Boat 3145</div></div>
+          <div class="time-tag"><div class="tt">9:05 AM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Mena Feudner, Bryanna DeRosa, Tianai Li, Harper Morton, Grace Ledbetter, Eliza Brooks, June Thomson, Clara Karpoff, Hannah Stacey</div>
+      </div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">24</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">W Youth 4+</div><div class="meta"><b>#52</b> · Tom Kicinski · Boat 3146</div></div>
+          <div class="time-tag"><div class="tt">10:02 AM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Sara Nishio, Anna Hesford, Qiangxi Droege, Grace Luebbe Davidson, Keira Weller</div>
+      </div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">29</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">M Youth 8+</div><div class="meta"><b>#55</b> · Grayson Busch · Boat 3250</div></div>
+          <div class="time-tag"><div class="tt">11:22 AM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Chloe Zurita, Harrison Greenstein, James Richards, Owen Baker, Rowan Gonzales, Cian Bradshaw, Zachary Langdon, Thomas Hesford, Isaac Lavely</div>
+      </div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">80</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">M Youth 4+</div><div class="meta"><b>#57</b> · Elisabeth Wu · Boat 3251</div></div>
+          <div class="time-tag"><div class="tt">12:13 PM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Tobin Catechi, Tim Meleshuk, Beckett Vernon, Walker Peek, Wyatt Morris</div>
+      </div>
+      <div class="boat">
+        <div class="r1">
+          <div class="bow"><span class="n">13</span><span class="l">Bow</span></div>
+          <div class="binfo"><div class="cls">W Championship 4+ / Mixed PR3 4+</div><div class="meta"><b>#62</b> · Coby Stites · Boat 5117</div></div>
+          <div class="time-tag"><div class="tt">1:36 PM</div></div>
+        </div>
+        <div class="crew"><div class="cl">Crew</div>Amy Werner, Taryn Kooyers, Rosemary Varney, Anna Garrison, Gracelyn Theobald</div>
+      </div>
+    </section>
+
+    <section id="contacts">
+      <h2 class="sh">Coaches &amp; Chaperones</h2>
+      <div class="card">
+        <a class="contact" href="tel:+12063907095"><span><span class="nm">Coby Stites</span><br><span class="rl">Women's 8+</span></span><span class="ph">206-390-7095</span></a>
+        <a class="contact" href="tel:+12069495883"><span><span class="nm">Tom Kicinski</span><br><span class="rl">Women's 4+</span></span><span class="ph">206-949-5883</span></a>
+        <a class="contact" href="tel:+12069411261"><span><span class="nm">Grayson Busch</span><br><span class="rl">Men's V8+</span></span><span class="ph">206-941-1261</span></a>
+        <a class="contact" href="tel:+12064872393"><span><span class="nm">Elisabeth Wu</span><br><span class="rl">Men's 4+</span></span><span class="ph">206-487-2393</span></a>
+        <a class="contact" href="tel:+12067947515"><span><span class="nm">Matt Baker</span><br><span class="rl">Chaperone</span></span><span class="ph">206-794-7515</span></a>
+        <a class="contact" href="tel:+12069206743"><span><span class="nm">Karen Morten</span><br><span class="rl">Chaperone</span></span><span class="ph">206-920-6743</span></a>
+      </div>
+    </section>
+
+    <footer>
+      <p><b>Race times</b> are from the RegattaCentral schedule and are approximate. Bow numbers are listed on each boat.</p>
+      <p><b>Scope:</b> flights, lodging, food and itinerary cover the youth team. Confirm travel for the Saturday Masters/Veteran crews and the Championship 4+ separately.</p>
+      <p><b>Return:</b> the parent letter governs over the draft — AS 459, departs 7:03 AM Mon.</p>
+      <p>Sources: GLC parent letter · RegattaCentral entries &amp; schedule · draft team itinerary. Updated Oct 13, 2026.</p>
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>
