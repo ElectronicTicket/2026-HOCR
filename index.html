@@ -78,6 +78,8 @@
   .leg .rt .ar{color:var(--sky)}
   .leg .tm{font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
   .leg .fl{font-family:var(--f-disp);font-weight:600;color:var(--sky);font-size:12px}
+  a.fllink{text-decoration:none;display:inline-block}
+  .trackhint{font-size:11px;color:var(--ink-soft);margin-top:8px}
   .pill{display:inline-block;background:var(--sky-bg);color:var(--sky);font-weight:700;
         font-variant-numeric:tabular-nums;letter-spacing:.08em;border-radius:7px;padding:3px 9px;font-size:14px}
   .callout{margin-top:10px;background:var(--surface-2);border-left:3px solid var(--sky);
@@ -191,7 +193,7 @@
   <main>
   <p id="loading" class="muted" style="padding:20px 2px">Loading the trip guide…</p>
   <p id="err" hidden class="muted" style="padding:20px 2px">Could not load data.json. Make sure it sits in the same folder as this page, then reload.</p>
-  <div class="stamp">Updated 14 Oct 2026, 7:39 AM · v8</div>
+  <div class="stamp">Updated 14 Oct 2026, 10:13 AM PDT · v11</div>
   <section id="flights"><h2 class="sh">Flights · Alaska</h2><div id="c-flights"></div></section>
   <section id="vans"><h2 class="sh">Ground Transport · Vans</h2><div id="c-vans"></div></section>
   <section id="hotel"><h2 class="sh">Hotel</h2><div id="c-hotel"></div></section>
@@ -212,11 +214,14 @@
   function render(d){
     try{document.querySelector('.htx .s').textContent=d.meta.subtitle;}catch(e){}
     var f=d.flights;
+    var flno=function(L){return L.track?'<a class="fl fllink" href="'+esc(L.track)+'">'+esc(L.flight)+' ↗</a>':'<div class="fl">'+esc(L.flight)+'</div>';};
+    var leg=function(L){return '<div class="leg"><div><div class="lab">'+esc(L.label)+'</div><div class="rt">'+route(L.route)+'</div></div><div>'+flno(L)+'<div class="tm">'+esc(L.time)+'</div></div></div>';};
     document.getElementById('c-flights').innerHTML=
       '<div class="card">'+
-      '<div class="leg"><div><div class="lab">'+esc(f.outbound.label)+'</div><div class="rt">'+route(f.outbound.route)+'</div></div><div><div class="fl">'+esc(f.outbound.flight)+'</div><div class="tm">'+esc(f.outbound.time)+'</div></div></div>'+
-      '<div class="leg"><div><div class="lab">'+esc(f["return"].label)+'</div><div class="rt">'+route(f["return"].route)+'</div></div><div><div class="fl">'+esc(f["return"].flight)+'</div><div class="tm">'+esc(f["return"].time)+'</div></div></div>'+
-      '<div class="callout">Confirmation <span class="pill">'+esc(f.confirmation)+'</span><br>'+esc(f.note)+'</div></div>';
+      leg(f.outbound)+
+      leg(f["return"])+
+      '<div class="trackhint">Tap a flight number for live status.</div>'+
+      '<div class="callout">'+(Array.isArray(f.confirmation)?'Confirmations ':'Confirmation ')+[].concat(f.confirmation).map(function(c){return '<span class="pill">'+esc(c)+'</span>';}).join(' ')+'<br>'+esc(f.note)+'</div></div>';
     var v=d.vans;
     document.getElementById('c-vans').innerHTML=
       '<div class="card">'+
@@ -248,7 +253,7 @@
     document.getElementById('c-resources').innerHTML='<div class="card"><div class="btnrow">'+(d.resources||[]).map(function(r){return '<a class="btn" href="'+esc(r.url)+'">'+esc(r.label)+'</a>';}).join('')+'</div></div>';
     document.getElementById('c-races').innerHTML=(d.races||[]).map(function(g){return '<div class="race-day">'+esc(g.day)+'</div>'+g.boats.map(function(b){return '<div class="boat"><div class="r1"><div class="bow"><span class="n">'+esc(b.bow)+'</span><span class="l">Bow</span></div><div class="binfo"><div class="cls">'+esc(b.cls)+'</div><div class="meta"><b>'+esc(b.event)+'</b>'+(b.coach?' · '+esc(b.coach):'')+' · Boat '+esc(b.boat)+'</div></div><div class="time-tag"><div class="tt">'+esc(b.time)+'</div></div></div><div class="crew"><div class="cl">Crew</div>'+esc(b.crew)+'</div></div>';}).join('');}).join('');
     document.getElementById('c-contacts').innerHTML='<div class="card">'+(d.contacts||[]).map(function(c){return '<a class="contact" href="tel:'+esc(c.tel)+'"><span><span class="nm">'+esc(c.name)+'</span><br><span class="rl">'+esc(c.role)+'</span></span><span class="ph">'+esc(c.phone)+'</span></a>';}).join('')+'</div>';
-    document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p><b>Updated 14 Oct 2026, 7:39 AM · v8</b></p>';
+    document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p><b>Updated 14 Oct 2026, 10:13 AM PDT · v11</b></p>';
     var l=document.getElementById('loading');if(l)l.remove();
   }
   var DATA={
@@ -258,9 +263,9 @@
     "updated": "Oct 13, 2026"
   },
   "flights": {
-    "outbound": { "label": "Out · Wed Oct 14", "route": "SEA → BOS", "flight": "AS 214", "time": "11:00 PM → 7:26 AM Thu" },
-    "return": { "label": "Back · Mon Oct 19", "route": "BOS → SEA", "flight": "AS 459", "time": "7:03 AM → 10:20 AM" },
-    "confirmation": "QTUBTB",
+    "outbound": { "label": "Out · Wed Oct 14", "route": "SEA → BOS", "flight": "AS 214", "time": "11:00 PM → 7:26 AM Thu", "track": "https://www.google.com/search?q=Alaska+Airlines+flight+214+status" },
+    "return": { "label": "Back · Mon Oct 19", "route": "BOS → SEA", "flight": "AS 459", "time": "7:03 AM → 10:20 AM", "track": "https://www.google.com/search?q=Alaska+Airlines+flight+459+status" },
+    "confirmation": ["QTUBTB", "MCPTHI"],
     "note": "At Alaska counters by 8:00 PM Wed. One carry-on + one personal bag. Checked bags $30, rower pays."
   },
   "vans": {
