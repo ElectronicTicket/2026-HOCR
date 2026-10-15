@@ -80,6 +80,8 @@
   .leg .fl{font-family:var(--f-disp);font-weight:600;color:var(--sky);font-size:12px}
   a.fllink{text-decoration:none;display:inline-block}
   .trackhint{font-size:11px;color:var(--ink-soft);margin-top:8px}
+  .locgroup + .locgroup{margin-top:10px}
+  .locgh{font-family:var(--f-disp);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12px;color:var(--green);padding-bottom:7px;margin-bottom:3px;border-bottom:1px solid var(--line)}
   .pill{display:inline-block;background:var(--sky-bg);color:var(--sky);font-weight:700;
         font-variant-numeric:tabular-nums;letter-spacing:.08em;border-radius:7px;padding:3px 9px;font-size:14px}
   .callout{margin-top:10px;background:var(--surface-2);border-left:3px solid var(--sky);
@@ -193,7 +195,7 @@
   <main>
   <p id="loading" class="muted" style="padding:20px 2px">Loading the trip guide…</p>
   <p id="err" hidden class="muted" style="padding:20px 2px">Could not load data.json. Make sure it sits in the same folder as this page, then reload.</p>
-  <div class="stamp">Updated 15 Oct 2026, 4:48 AM PDT · v12</div>
+  <div class="stamp">Updated 15 Oct 2026, 5:29 AM PDT · v14</div>
   <section id="flights"><h2 class="sh">Flights · Alaska</h2><div id="c-flights"></div></section>
   <section id="vans"><h2 class="sh">Ground Transport · Vans</h2><div id="c-vans"></div></section>
   <section id="hotel"><h2 class="sh">Hotel</h2><div id="c-hotel"></div></section>
@@ -247,13 +249,20 @@
     var segEl=document.querySelector('#c-plan .seg');
     if(segEl){segEl.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=b.getAttribute('data-i');segEl.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});document.querySelectorAll('#c-plan .itin-team').forEach(function(x){x.hidden=(x.getAttribute('data-i')!==i);});});}
     document.getElementById('c-packing').innerHTML='<div class="card"><ul class="list pack">'+(d.packing||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
-    var pk=d.locations||{};var pins=pk.pins||[];
-    var pinsHTML=pins.length?pins.map(function(p){return '<div class="pin"><div class="pl"><div class="pn">'+esc(p.label)+'</div>'+(p.detail?'<div class="pd">'+esc(p.detail)+'</div>':'')+'</div><a class="btn" href="'+esc(p.maps)+'">Open in Maps</a></div>';}).join(''):'<div class="muted">'+esc(pk.note||'To be added.')+'</div>';
-    document.getElementById('c-locations').innerHTML='<div class="card">'+((pins.length&&pk.note)?'<div class="muted" style="margin-bottom:8px">'+esc(pk.note)+'</div>':'')+pinsHTML+'</div>';
+    var pk=d.locations||{};
+    var pinRow=function(p){return '<div class="pin"><div class="pl"><div class="pn">'+esc(p.label)+'</div>'+(p.detail?'<div class="pd">'+esc(p.detail)+'</div>':'')+'</div><a class="btn" href="'+esc(p.maps)+'">Open in Maps</a></div>';};
+    var locHTML;
+    if(pk.groups&&pk.groups.length){
+      locHTML=pk.groups.map(function(g){return '<div class="card locgroup"><div class="locgh">'+esc(g.name)+'</div>'+(g.pins||[]).map(pinRow).join('')+'</div>';}).join('');
+    }else{
+      var pins=pk.pins||[];
+      locHTML='<div class="card">'+(pins.length?pins.map(pinRow).join(''):'<div class="muted">'+esc(pk.note||'To be added.')+'</div>')+'</div>';
+    }
+    document.getElementById('c-locations').innerHTML=locHTML;
     document.getElementById('c-resources').innerHTML='<div class="card"><div class="btnrow">'+(d.resources||[]).map(function(r){return '<a class="btn" href="'+esc(r.url)+'">'+esc(r.label)+'</a>';}).join('')+'</div></div>';
     document.getElementById('c-races').innerHTML=(d.races||[]).map(function(g){return '<div class="race-day">'+esc(g.day)+'</div>'+g.boats.map(function(b){return '<div class="boat"><div class="r1"><div class="bow"><span class="n">'+esc(b.bow)+'</span><span class="l">Bow</span></div><div class="binfo"><div class="cls">'+esc(b.cls)+'</div><div class="meta"><b>'+esc(b.event)+'</b>'+(b.coach?' · '+esc(b.coach):'')+' · Boat '+esc(b.boat)+'</div></div><div class="time-tag"><div class="tt">'+esc(b.time)+'</div></div></div><div class="crew"><div class="cl">Crew</div>'+esc(b.crew)+'</div></div>';}).join('');}).join('');
     document.getElementById('c-contacts').innerHTML='<div class="card">'+(d.contacts||[]).map(function(c){return '<a class="contact" href="tel:'+esc(c.tel)+'"><span><span class="nm">'+esc(c.name)+'</span><br><span class="rl">'+esc(c.role)+'</span></span><span class="ph">'+esc(c.phone)+'</span></a>';}).join('')+'</div>';
-    document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p><b>Updated 15 Oct 2026, 4:48 AM PDT · v12</b></p>';
+    document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p><b>Updated 15 Oct 2026, 5:29 AM PDT · v14</b></p>';
     var l=document.getElementById('loading');if(l)l.remove();
   }
   var DATA={
@@ -388,16 +397,23 @@
     "HOCR '26 Puffer — delivered to hotel"
   ],
   "locations": {
-    "pins": [
-      { "label": "North End Parking", "maps": "https://maps.app.goo.gl/XnArqiaStzPyDihg8?g_st=i&utm_campaign=ac-im" },
-      { "label": "Soldiers Field parking entrance", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
-      { "label": "Harvard Square parking", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
-      { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" },
-      { "label": "Weld Boathouse", "maps": "https://maps.app.goo.gl/6jt848ahp5te5iBt6" },
-      { "label": "Faneuil Hall", "maps": "https://maps.app.goo.gl/AA6Fcy7wSKdSLiRb7" },
-      { "label": "Day 1 parking — FALS area", "maps": "https://maps.app.goo.gl/MgFR1hk5bGssyXbT8?g_st=i&utm_campaign=ac-im" },
-      { "label": "King racing location", "maps": "https://maps.app.goo.gl/StZrwpDNnZM6VVDi9?g_st=i&utm_campaign=ac-im" },
-      { "label": "Alternate FALS parking — Day 2", "maps": "https://maps.app.goo.gl/tWkoMx3C7hwzCWuJ6?g_st=i&utm_campaign=ac-im" }
+    "groups": [
+      { "name": "Parking", "pins": [
+        { "label": "Day 1 parking — FALS area", "maps": "https://maps.app.goo.gl/MgFR1hk5bGssyXbT8?g_st=i&utm_campaign=ac-im" },
+        { "label": "Alternate FALS parking — Day 2", "maps": "https://maps.app.goo.gl/tWkoMx3C7hwzCWuJ6?g_st=i&utm_campaign=ac-im" },
+        { "label": "Soldiers Field parking entrance", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
+        { "label": "Harvard Square parking", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
+        { "label": "North End Parking", "maps": "https://maps.app.goo.gl/XnArqiaStzPyDihg8?g_st=i&utm_campaign=ac-im" },
+        { "label": "Alternate downtown parking", "maps": "https://maps.app.goo.gl/7RQPJuaPKQbPubZC6?g_st=i&utm_campaign=ac-im" }
+      ] },
+      { "name": "Boathouses & Racecourse", "pins": [
+        { "label": "Weld Boathouse", "maps": "https://maps.app.goo.gl/6jt848ahp5te5iBt6" },
+        { "label": "King racing location", "maps": "https://maps.app.goo.gl/StZrwpDNnZM6VVDi9?g_st=i&utm_campaign=ac-im" },
+        { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" }
+      ] },
+      { "name": "Other", "pins": [
+        { "label": "Faneuil Hall", "maps": "https://maps.app.goo.gl/AA6Fcy7wSKdSLiRb7" }
+      ] }
     ]
   },
   "races": [
