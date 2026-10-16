@@ -195,7 +195,7 @@
   <main>
   <p id="loading" class="muted" style="padding:20px 2px">Loading the trip guide…</p>
   <p id="err" hidden class="muted" style="padding:20px 2px">Could not load data.json. Make sure it sits in the same folder as this page, then reload.</p>
-  <div class="stamp">Updated 15 Oct 2026, 2:10 PM PDT · v18</div>
+  <div class="stamp">Updated 16 Oct 2026, 12:20 PM PDT · v21</div>
   <section id="flights"><h2 class="sh">Flights · Alaska</h2><div id="c-flights"></div></section>
   <section id="vans"><h2 class="sh">Ground Transport · Vans</h2><div id="c-vans"></div></section>
   <section id="hotel"><h2 class="sh">Hotel</h2><div id="c-hotel"></div></section>
@@ -262,7 +262,7 @@
     document.getElementById('c-resources').innerHTML='<div class="card"><div class="btnrow">'+(d.resources||[]).map(function(r){return '<a class="btn" href="'+esc(r.url)+'">'+esc(r.label)+'</a>';}).join('')+'</div></div>';
     document.getElementById('c-races').innerHTML=(d.races||[]).map(function(g){return '<div class="race-day">'+esc(g.day)+'</div>'+g.boats.map(function(b){return '<div class="boat"><div class="r1"><div class="bow"><span class="n">'+esc(b.bow)+'</span><span class="l">Bow</span></div><div class="binfo"><div class="cls">'+esc(b.cls)+'</div><div class="meta"><b>'+esc(b.event)+'</b>'+(b.coach?' · '+esc(b.coach):'')+' · Boat '+esc(b.boat)+'</div></div><div class="time-tag"><div class="tt">'+esc(b.time)+'</div></div></div><div class="crew"><div class="cl">Crew</div>'+esc(b.crew)+'</div></div>';}).join('');}).join('');
     document.getElementById('c-contacts').innerHTML='<div class="card">'+(d.contacts||[]).map(function(c){return '<a class="contact" href="tel:'+esc(c.tel)+'"><span><span class="nm">'+esc(c.name)+'</span><br><span class="rl">'+esc(c.role)+'</span></span><span class="ph">'+esc(c.phone)+'</span></a>';}).join('')+'</div>';
-    document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p><b>Updated 15 Oct 2026, 2:10 PM PDT · v18</b></p>';
+    document.getElementById('c-footer').innerHTML=(d.footer||[]).map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'<p><b>Updated 16 Oct 2026, 12:20 PM PDT · v21</b></p>';
     var l=document.getElementById('loading');if(l)l.remove();
   }
   var DATA={
@@ -403,13 +403,14 @@
         { "label": "Alternate FALS parking — Day 2", "maps": "https://maps.app.goo.gl/tWkoMx3C7hwzCWuJ6?g_st=i&utm_campaign=ac-im" },
         { "label": "Soldiers Field parking entrance", "maps": "https://maps.app.goo.gl/83EdkSJQCjHW6jjm9?g_st=i&utm_campaign=ac-im" },
         { "label": "Harvard Square Church Street Lot", "maps": "https://maps.app.goo.gl/Ka44vK5EHnd7eRWP7?g_st=i&utm_campaign=ac-im" },
-        { "label": "North End Parking", "maps": "https://maps.app.goo.gl/XnArqiaStzPyDihg8?g_st=i&utm_campaign=ac-im" },
+        { "label": "North End Parking", "maps": "https://maps.app.goo.gl/xeHQKinATbJF9zhd9?g_st=ic" },
         { "label": "Alternate downtown parking", "maps": "https://maps.app.goo.gl/7RQPJuaPKQbPubZC6?g_st=i&utm_campaign=ac-im" }
       ] },
       { "name": "Boathouses & Racecourse", "pins": [
         { "label": "Weld Boathouse", "maps": "https://maps.app.goo.gl/6jt848ahp5te5iBt6" },
         { "label": "King racing location", "maps": "https://maps.app.goo.gl/StZrwpDNnZM6VVDi9?g_st=i&utm_campaign=ac-im" },
-        { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" }
+        { "label": "Van drop-off & trailer parking", "maps": "https://maps.app.goo.gl/WvhJmK7j2BVEdZ429" },
+        { "label": "Newbury Drop Off", "maps": "https://maps.app.goo.gl/KoRuxM6QjJtPRx2r7?g_st=i&utm_campaign=ac-im" }
       ] },
       { "name": "Other", "pins": [
         { "label": "Faneuil Hall", "maps": "https://maps.app.goo.gl/AA6Fcy7wSKdSLiRb7" }
